@@ -1,44 +1,35 @@
-/*
-function checkDiv(input) {
-  let nums = input.split('/');
-  if(nums.legth >2){
-    return false;
-  }
-  return nums;
+function numberStringSplitter(input) {
+  let number = input.match(/[.\d\/]+/g) || ["1"];
+  let string = input.match(/[a-zA-Z]+/g)[0];
+
+  return [number[0], string];
 }
-*/
-const checkDivision = function(input) {
-  let nums = raw.split('/')
-  if (nums.leagth > 2) {
-    return false;
-  }
-  return nums;
-}
-const checkDecimal = function(input) {
-  let nums = input.split('.');
+function checkDiv(possibleFraction) {
+  let nums = possibleFraction.split("/");
   if (nums.length > 2) {
     return false;
   }
   return nums;
 }
 function ConvertHandler() {
-  this.getNum = function(input) {    
-    let num = input.match(/[\d\/.]+/g) || ['1']
-    let nums = checkDivision(num[0]);
-    if (!nums[0]) {
-      return 'invalid number'
+  this.getNum = function (input) {
+    let result = numberStringSplitter(input)[0];
+    let nums = checkDiv(result);
+    if (!nums) {
+      return undefined;
     }
-    let num1 = checkDecimal(nums[0])
-    let num2 = nums[1] || '1'
-    num2 = checkDecimal(num2);
-    let result = parseFloat(num1) / parseFloat(num2)
-    return result || 'invalid number'
+    let num1 = nums[0];
+    let num2 = nums[1] || "1";
+    result = parseFloat(num1) / parseFloat(num2);
+    if (isNaN(num1) || isNaN(num2)) {
+      return undefined;
+    }
+    return result;
   };
-  
-  this.getUnit = function(input) {
-    let str = input.match(/[a-zA-Z]+/g)[0];
-    let unit = (str).toLowerCase();
-    switch(unit){
+
+  this.getUnit = function (input) {
+    let result = numberStringSplitter(input)[1].toLowerCase();
+    switch (result) {
       case "km":
         return "km";
       case "gal":
@@ -52,11 +43,11 @@ function ConvertHandler() {
       case "kg":
         return "kg";
       default:
-        return 'invalid unit';
+        return undefined;
     }
   };
-  
-  this.getReturnUnit = function(initUnit) {
+
+  this.getReturnUnit = function (initUnit) {
     let unit = initUnit.toLowerCase();
 
     switch (unit) {
@@ -64,6 +55,8 @@ function ConvertHandler() {
         return "mi";
       case "gal":
         return "L";
+      case "lbs":
+        return "kg";
       case "mi":
         return "km";
       case "l":
@@ -71,28 +64,42 @@ function ConvertHandler() {
       case "kg":
         return "lbs";
       default:
-        return 'invalid unit';
+        return undefined;
     }
   };
 
-  this.spellOutUnit = function(unit) {    
-    const fullUnit = {
-      gal: "gallon", 
-      lbs: "pound",
-      mi: "mile",
-      l: "liter",
-      kg: "kilogram",
-      km: "kilometer",
+  this.spellOutUnit = function (initUnit) {
+    let unit = initUnit.toLowerCase();
+
+    switch (unit) {
+      case "km":
+        return "kilometers";
+      case "gal":
+        return "gallons";
+      case "lbs":
+        return "pounds";
+      case "mi":
+        return "miles";
+      case "l":
+        return "liters";
+      case "kg":
+        return "kilograms";
+      default:
+        return "don't know";
     }
-    return fullUnit[unit] || 'inavlid unit';
   };
-  
-  this.convert = function(initNum, initUnit) {
-    initUnit = initUnit.toLowercase();
+
+  this.convert = function (initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    switch (initUnit) {
+    let unit = initUnit.toLowerCase();
+    let result;
+
+    switch (unit) {
+      case "km":
+        result = initNum / miToKm;
+        break;
       case "gal":
         result = initNum * galToL;
         break;
@@ -108,19 +115,20 @@ function ConvertHandler() {
       case "kg":
         result = initNum / lbsToKg;
         break;
-      case "km":
-        result = initNum / miToKm;
-        break;
       default:
         result = undefined;
-    }    
-    return Number(XPathResult.toFixed(5));
+    }
+    return parseFloat(result.toFixed(5));
   };
-  
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    return '${initNum} ${this.spellOutUnit(init)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}';
+
+  this.getString = function (initNum, initUnit, returnNum, returnUnit) {
+    // let preciseInitNum = parseFloat(initNum.toFixed(5));
+    // let preciseReturnNum = parseFloat(returnNum.toFixed(5));
+
+    return `${initNum} ${this.spellOutUnit(
+      initUnit
+    )} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
   };
-  
 }
 
 module.exports = ConvertHandler;
