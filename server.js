@@ -23,10 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.route("/").get(function (req, res) {
   res.sendFile(process.cwd() + "/views/index.html");
 });
-
 //For FCC testing purposes
 fccTestingRoutes(app);
-
 //Routing for API
 apiRoutes(app);
 
@@ -35,19 +33,19 @@ app.use(function (req, res, next) {
   res.status(404).type("text").send("Not Found");
 });
 
+const port = process.env.PORT || 3000;
+
 //Start our server and tests!
-const PORT = process.env.PORT || 3000; // Usar el puerto definido en el entorno o 3000 como predeterminado
-app.listen(PORT, function () {
-  console.log("Listening on port " + PORT);
+app.listen(port, function () {
+  console.log("Listening on port " + port);
   if (process.env.NODE_ENV === "test") {
     console.log("Running Tests...");
     setTimeout(function () {
       try {
         runner.run();
       } catch (e) {
-        let error = e;
         console.log("Tests are not valid:");
-        console.log(error);
+        console.error(e);
       }
     }, 1500);
   }

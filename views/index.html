@@ -2,31 +2,20 @@
 <html>
   <head>
     <title>Metric/Imperial Converter</title>
-    <meta name="description" content="An example of the Free Code Camp Metric/Imperial Converter Project">
-    <link id="favicon" rel="icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon">
+    <meta name="description" content="Metric/Imperial Converter Project based on the freeCodeCamp Quality Assurance curriculum">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./public/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
   </head>
   <body>
     <header>
       <h1>Metric/Imperial Converter</h1>
     </header>
-    <hr style='margin: 50px'>
-    <section>
-      <h3>Example usage</h3>
-      <code>/api/convert?input=4gal</code><br>
-      <code>/api/convert?input=1/2km</code><br>
-      <code>/api/convert?input=5.4/3lbs</code><br>
-      <code>/api/convert?input=kg</code><br>
-      <h3>Example return</h3>
-      <code>{ initNum: 3.1, initUnit: 'mi', returnNum: 4.98895, returnUnit: 'km', string: '3.1 miles converts to 4.98895 kilometers' }</code>
-    </section>
-    <hr style='margin: 50px'>
     <section>
       <div id='testui' >
-        <h3 style="text-align: left">Front-End</h3>
+        <h3 id="uititle">Front-End</h3>
         <form id="convertForm" class="border">
           <input type="text" id="convertField" name="input" placeholder="3.1mi" style="width: 200px">
           <input id="convert" type="submit" value='Convert!'>
@@ -35,6 +24,62 @@
         <code id='jsonResult'></code>
       </div>
     </section>
+    <section id="description">
+      <h3>Description</h3>
+      <p>This simple app will convert between a few metric/imperial units and will return a string with the answer, as well as a JSON object containing the detailed result.</p>
+      <p>The valid input contains no spaces and no special characters, only uses the defined units. The numbers can be integers and simple fractions.</p>
+        <listsblock>
+          <article>
+            <h4>Valid input characters</h4>
+            <ul>
+              <li>Numbers 0-9,</li>
+              <li>dot (.) for decimals,</li>
+              <li>slash (/) for fractions,</li>
+              <li>letters for units.</li>
+            </ul>
+          </article>
+          <article>
+            <h4>Valid unit inputs:</h4>
+            <ul>
+              <li>L, gal</li>
+              <li>km, mi</li>
+              <li>kg, lbs</li>
+            </ul>
+          </article>
+          <article>
+            <h4>Valid number inputs:</h4>
+            <ul>
+              <li><b>Integers:</b> 2, 13, 42, ...</li>
+              <li><b>Decimals:</b> 2.5, 1.33333, ...</li>
+              <li><b>Fractions:</b> 2/5, 2.5/6, 2.5/10.3, ...</li>
+            </ul>
+          </article>
+        </listsblock>
+      </div>
+    </section>
+    <section id="examples">
+      <div class="example">
+        <h3>Example usage</h3>
+        <codeblock>
+          <code>/api/convert?input=4gal</code><br>
+          <code>/api/convert?input=1/2km</code><br>
+          <code>/api/convert?input=5.4/3lbs</code><br>
+          <code>/api/convert?input=kg</code><br>
+        </codeblock>
+      </div>
+      <div class="example">
+        <h3>Example return</h3>
+        <codeblock>
+          <code>{ initNum: 3.1, initUnit: 'mi', returnNum: 4.98895, returnUnit: 'km', string: '3.1 miles converts to 4.98895 kilometers' }</code>
+        </codeblock>
+      </div>
+    </section>
+    <hr>
+    <div id="footer">
+        <p><br/>
+        This project has been written by <a href="https://github.com/d-0-t" target="_blank" rel="noreferrer"><b>d0t</b></a> for <a href="https://www.freecodecamp.org/" target="_blank" rel="noreferrer">freeCodeCamp.org</a>'s Quality Assurance course.
+      </p>
+    </div>
     <!-- Your web-app is https, so your scripts need to be too -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
